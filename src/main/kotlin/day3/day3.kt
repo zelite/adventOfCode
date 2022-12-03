@@ -14,7 +14,7 @@ fun main() {
     }.map { b -> b.getContent() }.sumOf { content -> itemPriority(content[0]) }
 
     println("Part 1")
-    println("The sum of priorities is in common items of single backpacks is$sumOfCommonItemsPriority")
+    println("The sum of priorities is in common items of single backpacks is $sumOfCommonItemsPriority")
     println("Part 2")
     println("The sum of priorities in the 3 elf groups badges is $sumGroupsOfThreeItemsPriority")
 
