@@ -1,8 +1,8 @@
 package day3
 
 class Backpack(items: String) {
-    var compartmentA: String
-    var compartmentB: String
+    private var compartmentA: String
+    private var compartmentB: String
 
     init {
         compartmentA = items.substring(0, items.length / 2)
@@ -23,8 +23,8 @@ class Backpack(items: String) {
         return Backpack(commonChars(thisBackpackItems, otherBackItems).joinToString { t -> t.toString() })
     }
 
-    fun commonChars(a: String, b: String): Set<Char> {
-        return a.toCharArray().intersect(b.toCharArray().asIterable())
+    private fun commonChars(a: String, b: String): Set<Char> {
+        return a.toCharArray().intersect(b.toCharArray().toSet())
     }
 
     fun getContent(): String {

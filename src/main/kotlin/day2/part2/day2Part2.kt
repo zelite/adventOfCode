@@ -5,12 +5,12 @@ import java.nio.file.Path
 
 fun main() {
     val allLines = Files.readAllLines(Path.of("src/main/kotlin/day2/input.txt"))
-    val totalScore = allLines.map { s -> s.split(" ") }
-        .map { l -> Pair(translateElfMoves(l[0]), translateResult(l[1])) }
-        .map { p ->
-            scoreForPlayerMove(determinePlayerMove(p.first, p.second)) + scoreForResult(p.second)
-        }.sum()
-    println("Total Score: " + totalScore)
+    val totalScore =
+        allLines.map { s -> s.split(" ") }.map { l -> Pair(translateElfMoves(l[0]), translateResult(l[1])) }
+            .sumOf { p ->
+                scoreForPlayerMove(determinePlayerMove(p.first, p.second)) + scoreForResult(p.second)
+            }
+    println("Total Score: $totalScore")
 }
 
 fun scoreForResult(winner: String?): Int {
@@ -49,29 +49,18 @@ fun scoreForPlayerMove(move: String?): Int {
 fun determinePlayerMove(elfMove: String, playerMove: String): String? {
     val resultsMap = mapOf(
         Pair(
-            "Rock",
-            mapOf(
-                Pair("Draw", "Rock"),
-                Pair("Player", "Paper"),
-                Pair("Elf", "Scissors")
+            "Rock", mapOf(
+                Pair("Draw", "Rock"), Pair("Player", "Paper"), Pair("Elf", "Scissors")
             )
-        ),
-        Pair(
-            "Paper",
-            mapOf(
-                Pair("Elf", "Rock"),
-                Pair("Draw", "Paper"),
-                Pair("Player", "Scissors")
+        ), Pair(
+            "Paper", mapOf(
+                Pair("Elf", "Rock"), Pair("Draw", "Paper"), Pair("Player", "Scissors")
             )
-        ),
-        Pair(
-            "Scissors",
-            mapOf(
-                Pair("Player", "Rock"),
-                Pair("Elf", "Paper"),
-                Pair("Draw", "Scissors")
+        ), Pair(
+            "Scissors", mapOf(
+                Pair("Player", "Rock"), Pair("Elf", "Paper"), Pair("Draw", "Scissors")
             )
         )
     )
-    return resultsMap.get(elfMove)?.get(playerMove)
+    return resultsMap[elfMove]?.get(playerMove)
 }

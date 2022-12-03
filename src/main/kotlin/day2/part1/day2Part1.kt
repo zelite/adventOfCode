@@ -5,17 +5,16 @@ import java.nio.file.Path
 
 fun main() {
     val allLines = Files.readAllLines(Path.of("src/main/kotlin/day2/input.txt"))
-    val totalScore = allLines.map { s -> s.split(" ") }
-        .map { l -> Pair(translateElfMoves(l[0]), translatePlayerMoves(l[1])) }
-        .map { p ->
-            scoreForResult(
-                determineWinner(
-                    p.first,
-                    p.second
-                )
-            ) + scoreForPlayerMove(p.second)
-        }.sum()
-    println("Total Score: " + totalScore)
+    val totalScore =
+        allLines.map { s -> s.split(" ") }.map { l -> Pair(translateElfMoves(l[0]), translatePlayerMoves(l[1])) }
+            .sumOf { p ->
+                scoreForResult(
+                    determineWinner(
+                        p.first, p.second
+                    )
+                ) + scoreForPlayerMove(p.second)
+            }
+    println("Total Score: $totalScore")
 }
 
 fun scoreForResult(winner: String?): Int {
@@ -54,29 +53,18 @@ fun scoreForPlayerMove(move: String): Int {
 fun determineWinner(elfMove: String, playerMove: String): String? {
     val resultsMap = mapOf(
         Pair(
-            "Rock",
-            mapOf(
-                Pair("Rock", "Draw"),
-                Pair("Paper", "Player"),
-                Pair("Scissors", "Elf")
+            "Rock", mapOf(
+                Pair("Rock", "Draw"), Pair("Paper", "Player"), Pair("Scissors", "Elf")
             )
-        ),
-        Pair(
-            "Paper",
-            mapOf(
-                Pair("Rock", "Elf"),
-                Pair("Paper", "Draw"),
-                Pair("Scissors", "Player")
+        ), Pair(
+            "Paper", mapOf(
+                Pair("Rock", "Elf"), Pair("Paper", "Draw"), Pair("Scissors", "Player")
             )
-        ),
-        Pair(
-            "Scissors",
-            mapOf(
-                Pair("Rock", "Player"),
-                Pair("Paper", "Elf"),
-                Pair("Scissors", "Draw")
+        ), Pair(
+            "Scissors", mapOf(
+                Pair("Rock", "Player"), Pair("Paper", "Elf"), Pair("Scissors", "Draw")
             )
         )
     )
-    return resultsMap.get(elfMove)?.get(playerMove)
+    return resultsMap[elfMove]?.get(playerMove)
 }
